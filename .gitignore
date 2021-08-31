@@ -1,0 +1,44 @@
+/backend/node_modules
+/backend/public/hot
+/backend/storage/*.key
+/vendor
+/backend/.env
+/backend/.env.backup
+/backend/.phpunit.result.cache
+/backend/docker-compose.override.yml
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/.idea
+/backend/.vscode
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+
+/frontend1/node_modules
+
+/frontend1/.pnp
+
+/frontend1/.pnp.js
+
+# testing
+
+/frontend1/coverage
+
+# production
+
+/frontend1/build
+
+# misc
+/frontend1/.DS_Store
+/frontend1/.env.local
+/frontend1/.env.development.local
+/frontend1/.env.test.local
+/frontend1/.env.production.local
+
+/frontend1/npm-debug.log*
+/frontend1/yarn-debug.log*
+/frontend1/yarn-error.log*
