@@ -85,10 +85,11 @@ const ItemDetailsComponent = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{item.name}</h5>
                                     <p className="card-text">{item.description}</p>
-                                    <p className="card-text"><small className="text-muted">Price: ${item.bid_price} </small></p>
+                                    <p className="card-text"><small className="text-muted">Starting Price: ${item.bid_price} </small></p>
+                                    <p className="card-text"><small className="text-muted">Closing date: {item.closing_date} </small></p>
                                     <p className="card-text"><small className="text-muted">Time remaining: {timerMessage}</small></p>
     
-                                    {CurrentBiddingPrice(id,leftTime)}
+                                    {CurrentBiddingPrice(id, item.bid_price,leftTime)}
                                 </div>
                             </div>
                         </div>
