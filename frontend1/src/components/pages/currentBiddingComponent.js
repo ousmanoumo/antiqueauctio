@@ -6,7 +6,7 @@ import BidNowComponent from "./BidNowComponent";
 const CurrentBiddingComponent = (idItem, leftTime) => {
     const history = useHistory();
     const [bidHighest, setBidHighest] = useState(['Loading...']);
-
+    const [isHighestBidder, setIsHighestBidder] = useState(false)
 
     useEffect(() => {
         //check to look for an update on the bidding amount
@@ -17,11 +17,12 @@ const CurrentBiddingComponent = (idItem, leftTime) => {
             HighestBidService(idItem).then((res) => {
                 if (res.hasOwnProperty('success') && res.success === true) {
                    console.log(res.data);
-                   setBidHighest(res.data);
+                   setBidHighest(res.data.amount);
+                  // setIsHighestBidder(res.data.isBidder);
                    
                 } else if (res.hasOwnProperty('success') && res.success === false) {
                     setBidHighest('No bidding');                  
-                                
+                   // setIsHighestBidder(false);       
                 }
             }, error => {
                 alert(error);
@@ -35,8 +36,8 @@ const CurrentBiddingComponent = (idItem, leftTime) => {
 
     return (
         <div>
-            <span> The current Highest bid is $ {bidHighest.amount} </span>
-            { bidHighest.isBidder===false ? BidNowComponent(idItem): <p>You are the highest bidder</p>}
+            <span> The current Highest bid is $ {bidHighest} </span>
+            { true==true ? BidNowComponent(idItem): <p>You can not make a bid at this time</p>}
         </div>
 
     );

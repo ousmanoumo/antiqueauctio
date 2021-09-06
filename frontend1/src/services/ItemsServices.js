@@ -25,17 +25,18 @@ export const LoadSingleItem = (id) => {
         return error;
     });
 }
-export const HighestBidService = (id) => {
+export const HighestBidService = async (id) => {
     const http = new HttpService();
     let itemUrl = "scopic/bidhighest?id=" + id;
     const tokenId = "user-token";
-    return http.getData(itemUrl, tokenId).then(data => {
+    try {
+        const data = await http.getData(itemUrl, tokenId);
         console.log(data);
         return data;
-    }).catch((error) => {
+    } catch (error) {
         console.log(error);
         return error;
-    });
+    }
 }
 
 
