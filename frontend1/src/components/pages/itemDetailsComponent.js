@@ -6,14 +6,24 @@ import CurrentBiddingPrice from './currentBiddingComponent';
 
 const ItemDetailsComponent = () => {
     const history = useHistory();
+    //item id
     const { id } = useParams();
+    //current item
     const [item, setItem] = useState([]);
+    //time remaining to close the auction
+    const [leftTime, setLeftTime] = useState(0);
+    //auction closing date 
+    const [rmTime, setRmTime] = useState("");
+    //timer for display
+    const [timerMessage, setTimerMessage] = useState('');
 
+    //load item information
     useEffect(() => {
-         LoadSingleItem(id).then((res) => {
+        LoadSingleItem(id).then((res) => {
 
             if (res.hasOwnProperty('success') && res.success === true) {
-                setItem( res.data );
+                setItem(res.data);
+                setRmTime(new Date(res.data.closing_date).getTime());
             } else if (res.hasOwnProperty('success') && res.success === false) {
                 history.push('/dashboard');
             }
@@ -22,6 +32,44 @@ const ItemDetailsComponent = () => {
         })
 
     }, [id]);
+
+    //set the timer
+    useEffect(() => {
+        let interval = null;
+        // Get today's date and time
+        let nowTime = null;
+
+        // Find the distance between now and the count down date
+        let distance = null;
+
+        interval = setInterval(() => {
+            nowTime = new Date().getTime();
+            if (rmTime !=='') {
+                distance = rmTime - nowTime;
+                setLeftTime(distance);
+                updateTimer(distance);
+                if(distance < 0){
+                    clearInterval(interval);
+                    setTimerMessage('Auction has expired')
+                }
+               
+             }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [rmTime]);
+
+
+    function updateTimer(distance) {
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Update the timer display 
+        setTimerMessage(days + "days " + hours + "h " + minutes + "m " + seconds + "s ");
+    }
+
 
     return (
         <Container>
@@ -37,8 +85,10 @@ const ItemDetailsComponent = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{item.name}</h5>
                                     <p className="card-text">{item.description}</p>
-                                    <p className="card-text"><small className="text-muted">Price: ${item.bid_price} Closing-date: {item.closing_date}</small></p>
-                                    {CurrentBiddingPrice(id)}
+                                    <p className="card-text"><small className="text-muted">Price: ${item.bid_price} </small></p>
+                                    <p className="card-text"><small className="text-muted">Time remaining: {timerMessage}</small></p>
+    
+                                    {CurrentBiddingPrice(id,leftTime)}
                                 </div>
                             </div>
                         </div>
@@ -49,70 +99,4 @@ const ItemDetailsComponent = () => {
 
     );
 }
-// class ItemDetailsComponent extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             bidding_price: ' ',
-//         };
-
-//         this.getItems.bind(this);
-//     }
-
-//     handleFieldChange = (e) => {
-//         this.setState({
-//             [e.target.id]: e.target.value
-//         })
-
-//     }
-
-
-
-
-//     renderItems = () => {
-//         const {data, current_page, per_page, total} = this.state.items.data;
-//         return (
-//             <div>
-//                 <Row>
-
-//                     {data.map((element, index) => {
-//                         return (
-
-//                             <Col md={3}>
-//                                 {ItemComponent(element, index)}
-//                             </Col>
-//                         );
-
-//                     })}
-//                 </Row>
-
-//             </div>);
-//     }
-//     render() {
-//         return (
-//             <Container>
-//                 <Header />
-//                 <div class="card mb-3" style="max-width: 540px;">
-//                     <div class="row g-0">
-//                         <div class="col-md-4">
-//                             <img src="..." class="img-fluid rounded-start" alt="..." />
-
-//                             <div class="col-md-8">
-//                                 <div class="card-body">
-//                                     <h5 class="card-title">Card title</h5>
-//                                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-//                                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-
-//             </Container>
-//         );
-//     }
-
-
-// }
 export default ItemDetailsComponent;

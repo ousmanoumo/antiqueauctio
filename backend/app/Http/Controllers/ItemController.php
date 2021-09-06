@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Bid;
 use Illuminate\Http\Request;
+use Auth;
 
 class ItemController extends Controller
 {
@@ -102,5 +104,33 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    public function bidhighest(Request $request){
+
+        $responseMessage = "Highest bidding";
+        $data = Bid::query()
+                    ->where('item_id', '=', $request->id )
+                    ->orderBy('amount','desc')
+                    ->first();
+
+        if($data){
+            return response()->json([
+                "success" => true,
+                "message" => $responseMessage,
+                "data" => [
+                    'amount'=>$data->amount,
+                    'isBidder' => $data->user_id == Auth::guard("api")->user()->id
+                ]
+            ], 200);
+        }
+        else{
+            return response()->json([
+                "success" => false,
+                "message" => 'There is no bidding',
+                "data" => $data
+            ], 200);
+        }
+        
     }
 }

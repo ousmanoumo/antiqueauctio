@@ -1,9 +1,9 @@
 import HttpService from './HttpService';
 export const LoadItems = (page = 1, strItem = "") => {
     const http = new HttpService();
-    let profileUrl = "scopic/items?page=" + page + "&name=" + strItem;
+    let itemUrl = "scopic/items?page=" + page + "&name=" + strItem;
     const tokenId = "user-token";
-    return http.getData(profileUrl, tokenId).then(data => {
+    return http.getData(itemUrl, tokenId).then(data => {
         console.log(data);
         return data;
     }).catch((error) => {
@@ -15,13 +15,43 @@ export const LoadItems = (page = 1, strItem = "") => {
 
 export const LoadSingleItem = (id) => {
     const http = new HttpService();
-    let profileUrl = "scopic/item?id=" + id;
+    let itemUrl = "scopic/item?id=" + id;
     const tokenId = "user-token";
-    return http.getData(profileUrl, tokenId).then(data => {
+    return http.getData(itemUrl, tokenId).then(data => {
         console.log(data);
         return data;
     }).catch((error) => {
         console.log(error);
         return error;
     });
+}
+export const HighestBidService = (id) => {
+    const http = new HttpService();
+    let itemUrl = "scopic/bidhighest?id=" + id;
+    const tokenId = "user-token";
+    return http.getData(itemUrl, tokenId).then(data => {
+        console.log(data);
+        return data;
+    }).catch((error) => {
+        console.log(error);
+        return error;
+    });
+}
+
+
+
+export const BidNowService = async (id, amount) => {
+    const http = new HttpService();
+    const tokenId = "user-token";
+    let itemUrl = "scopic/bidnow";
+    let params = { 'id': id, 'amount': amount};
+
+    try {
+        const data = await http.postData(params, itemUrl, tokenId);
+        console.log('Bid now service'+data);
+        return data;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 }
