@@ -27,7 +27,7 @@ class ItemFactory extends Factory
             'imgurl' => $this->faker->image('public/storage/images',640,480,null,false),
             'bid_price' => $this->faker->numberBetween(15,200),
             'description' => $this->faker->paragraph,
-            'closing_date' => date("Y-m-d H:i:s", strtotime('+'.rand(10,24).' hours')),
+            'closing_date' => date("Y-m-d H:i:s", strtotime('+'.rand(30,40).' hours')),
         ];
     }
 }

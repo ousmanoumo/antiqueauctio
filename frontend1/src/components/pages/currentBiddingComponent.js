@@ -4,25 +4,31 @@ import { HighestBidService } from "../../services/ItemsServices";
 import BidNowComponent from "./BidNowComponent";
 
 const CurrentBiddingComponent = (idItem, leftTime) => {
-    const history = useHistory();
     const [bidHighest, setBidHighest] = useState(['Loading...']);
-    const [isHighestBidder, setIsHighestBidder] = useState(false)
+    const [isHighestBidder, setIsHighestBidder] = useState(0);
+    const history = useHistory();
+
 
     useEffect(() => {
         //check to look for an update on the bidding amount
         let interval = null;
-        
         interval = setInterval(() => {
 
+            
             HighestBidService(idItem).then((res) => {
                 if (res.hasOwnProperty('success') && res.success === true) {
                    console.log(res.data);
                    setBidHighest(res.data.amount);
-                  // setIsHighestBidder(res.data.isBidder);
+                   setIsHighestBidder(0);
+                   if (res.data.isBidder === true) {
+                        setIsHighestBidder(1);
+                   }
+                   
                    
                 } else if (res.hasOwnProperty('success') && res.success === false) {
-                    setBidHighest('No bidding');                  
-                   // setIsHighestBidder(false);       
+                    setBidHighest('No bidding');  
+                    setIsHighestBidder(0);                
+                   
                 }
             }, error => {
                 alert(error);
@@ -31,13 +37,17 @@ const CurrentBiddingComponent = (idItem, leftTime) => {
             
         }, 2000);
         return () => clearInterval(interval);
-    }, []);
+    }, [bidHighest]);
 
 
     return (
         <div>
-            <span> The current Highest bid is $ {bidHighest} </span>
-            { true==true ? BidNowComponent(idItem): <p>You can not make a bid at this time</p>}
+            <span> The current Highest bid is $ {bidHighest} {isHighestBidder} </span>
+            <span>{isHighestBidder? <p>Your have currently the highest bid</p> 
+            : <p>Your bid is not the highest</p>
+            }</span>
+
+            {BidNowComponent(idItem,bidHighest, isHighestBidder==0 )}
         </div>
 
     );
