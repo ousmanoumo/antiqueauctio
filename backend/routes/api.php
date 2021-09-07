@@ -19,6 +19,7 @@ Route::group(['prefix' => 'scopic', 'middleware' => 'CORS'], function ($router) 
 
 
     Route::get('/items', [ItemController::class, 'index'])->name('index.item');
+    Route::get('/bidItems', [ItemController::class, 'bidItems'])->name('index.item');
     Route::get('/item', [ItemController::class, 'show'])->name('show.item');
     Route::post('/auto-bidding', [ItemController::class, 'autoBidding'])->name('autobidding.item');
 

@@ -11,6 +11,18 @@ export const LoadItems = (page = 1, strItem = "") => {
         return error;
     });
 }
+export const LoadBidItems = (page = 1, strItem = "") => {
+    const http = new HttpService();
+    let itemUrl = "scopic/bidItems?page=" + page + "&name=" + strItem;
+    const tokenId = "user-token";
+    return http.getData(itemUrl, tokenId).then(data => {
+        console.log(data);
+        return data;
+    }).catch((error) => {
+        console.log(error);
+        return error;
+    });
+}
 
 
 export const LoadSingleItem = (id) => {

@@ -16,7 +16,7 @@ class Item extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function bids(): HasMany
+    public function bids()
     {
         return $this->hasMany(Bid::class);
     }

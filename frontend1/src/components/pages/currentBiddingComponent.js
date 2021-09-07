@@ -13,13 +13,11 @@ const CurrentBiddingComponent = (idItem,bid_price, leftTime) => {
         //check to look for an update on the bidding amount
         let interval = null;
         
+        //look for the highest bid every 2 seconds
         interval = setInterval(() => {
 
-            console.log(idItem);
-            HighestBidService(idItem).then((res) => {
+             HighestBidService(idItem).then((res) => {
                 if (res.hasOwnProperty('success') && res.success === true) {
-                   console.log(res.data);
-                   console.log(idItem);
                    setBidHighest(res.data.amount);
                    setIsHighestBidder(0);
                    if (res.data.isBidder === true) {
@@ -28,8 +26,8 @@ const CurrentBiddingComponent = (idItem,bid_price, leftTime) => {
                    
                    
                 } else if (res.hasOwnProperty('success') && res.success === false) {
-                    setBidHighest( bid_price);
-                   console.log(idItem);
+                    console.log(bid_price);
+                    setBidHighest(bid_price);
                     setIsHighestBidder(0);                
                    
                 }
@@ -40,12 +38,11 @@ const CurrentBiddingComponent = (idItem,bid_price, leftTime) => {
             
         }, 2000);
         return () => clearInterval(interval);
-    }, []);
-
+    }, [bidHighest, isHighestBidder]);
 
     return (
         <div>
-            <span> The current Highest bid is $ {bidHighest} </span>
+            <span> The current Highest bid is $ {bidHighest}</span>
             <span>{isHighestBidder? <p>Your have currently the highest bid</p> 
             : <p>Your bid is not the highest</p>
             }</span>

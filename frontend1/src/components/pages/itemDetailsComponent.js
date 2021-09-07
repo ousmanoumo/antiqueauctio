@@ -22,6 +22,7 @@ const ItemDetailsComponent = () => {
         LoadSingleItem(id).then((res) => {
 
             if (res.hasOwnProperty('success') && res.success === true) {
+                console.log(res.data)
                 setItem(res.data);
                 setRmTime(new Date(res.data.closing_date).getTime());
             } else if (res.hasOwnProperty('success') && res.success === false) {
@@ -30,7 +31,7 @@ const ItemDetailsComponent = () => {
         }, error => {
             history.push('/dashboard');
         })
-
+        return () => {};
     }, [id]);
 
     //set the timer
@@ -56,7 +57,7 @@ const ItemDetailsComponent = () => {
              }
         }, 1000);
         return () => clearInterval(interval);
-    }, [rmTime]);
+    }, [updateTimer,leftTime]);
 
 
     function updateTimer(distance) {

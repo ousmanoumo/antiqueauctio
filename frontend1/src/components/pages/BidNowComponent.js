@@ -12,19 +12,17 @@ const BidNowComponent = (id, HighestBid, isTrue) => {
     const bidHandle= (e) =>{
         e.preventDefault();
         if(bid < HighestBid + 1){
-            alert('Your bid should be greater than or equal to '+HighestBid +1);
+            alert('Your bid should be greater than '+ HighestBid );
             return ;
         }
         BidNowService(id, bid).then((res) => {
             if (res.hasOwnProperty('success') && res.success === true) {
                 alert(res.message);
-                console.log("true "+res);
             } else if (res.hasOwnProperty('success') && res.success === false) {
-                alert(res); console.log("false "+res);
+                alert(res); console.log(res);
             }
         }, error => {
             alert(error);
-            console.log(error);
         });
     }
 

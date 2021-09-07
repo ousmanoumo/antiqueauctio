@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Bid;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class ItemController extends Controller
 {
@@ -30,6 +32,26 @@ class ItemController extends Controller
             "message" => $responseMessage,
             "data" => $data
         ], 200);
+    }
+    /**
+     * Display a listing of bidded items of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bidItems(Request $request)
+    {
+        
+        $responseMessage = "List Bidded Items";
+        
+        $data = Item::whereHas('bids', function (Builder $query){
+            $query->where('user_id','=',Auth::guard("api")->user()->id);
+        })->paginate(10);
+
+            return response()->json([
+                "success" => true,
+                "message" => $responseMessage,
+                "data" => $data
+            ], 200);
     }
 
     /**

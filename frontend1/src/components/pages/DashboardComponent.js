@@ -1,6 +1,5 @@
 import React  from 'react';
 import ItemComponent from './ItemComponent';
-import Header from '../layouts/Header';
 import { Row, Col, Container } from 'react-bootstrap';
 import { LoadItems } from '../../services/ItemsServices';
 import Pagination from 'react-js-pagination'
