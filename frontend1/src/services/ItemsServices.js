@@ -68,3 +68,18 @@ export const BidNowService = async (id, amount) => {
         return error;
     }
 }
+export const SettingService = async (maximumamount) => {
+    const http = new HttpService();
+    const tokenId = "user-token";
+    let itemUrl = "scopic/settingbidding";
+    let params = {'maximumamount': maximumamount};
+
+    try {
+        const data = await http.postData(params, itemUrl, tokenId);
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}

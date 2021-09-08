@@ -87,13 +87,21 @@ class UserController extends Controller
                 'message' => $validator->messages()->toArray()
             ], 500);
         }
-        $user = auth()->user();
-        $user->max_bid_amount= $request->maximum_amount;   
+        $user = User::find( Auth::guard("api")->user()->id);
+
+        if(!$user){
+            return response()->json([
+                "success" => false,
+                "message" => 'User does not exist'
+            ], 200);
+        }
+        $user->max_bid_amount= $request->maximumamount;   
         $user->save();
         $responseMessage = "Setting Successful";
         return response()->json([
             'success' => true,
-            'message' => $responseMessage
+            'message' => $responseMessage,
+            'data' => Auth::guard("api")->user()->id
         ], 200);
 
     }
@@ -104,6 +112,15 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => $responseMessage
+        ], 200);
+    }
+
+    public function profile(){
+        $responseMessage = "Profile user"  ;
+        return response()->json([
+            'success' => true,
+            'message' => $responseMessage,
+            'data' => Auth::guard("api")->user()
         ], 200);
     }
 }

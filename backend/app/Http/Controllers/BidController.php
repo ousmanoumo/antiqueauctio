@@ -26,10 +26,7 @@ class BidController extends Controller
     public function bidNow(Request $request)
     {
 
-        $newBid = new Bid;
-        $newBid->item_id = $request->id;
-        $newBid->amount = $request->amount;
-        $newBid->user_id = Auth::guard("api")->user()->id;
+       
         
         $fdbid=Bid::where('item_id',$request->id)   
                     ->where('user_id',Auth::guard("api")->user()->id)->first();
@@ -43,6 +40,10 @@ class BidController extends Controller
             ], 200);
         }
         else{
+            $newBid = new Bid;
+            $newBid->item_id = $request->id;
+            $newBid->amount = $request->amount;
+            $newBid->user_id = Auth::guard("api")->user()->id;
             $newBid->save(); 
             return response()->json([
                 "success" => true,
