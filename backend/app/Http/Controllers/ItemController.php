@@ -128,8 +128,10 @@ class ItemController extends Controller
         //
     }
 
+    //get the highest bid for a given item
     public function bidhighest(Request $request){
 
+        //highest bid
         $responseMessage = "Highest bidding";
         $data = Bid::query()
                     ->where('item_id', '=', $request->id )

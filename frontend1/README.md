@@ -11,4 +11,7 @@ Run:  npm install
 
 #Step 2
 change the url of the server inside the file HttpService.js under src/services folder
-(url = "http://localhost:8000/api";)
+(url = "http://localhost:8000";)
+
+#Step 3
+run: npm serve

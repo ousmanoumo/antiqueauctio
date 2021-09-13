@@ -84,7 +84,7 @@ const ItemDetailsComponent = () => {
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body">
-                                    <h5 className="card-title">{item.name}</h5>
+                                    <h5 className="card-title">{item.name} </h5>
                                     <p className="card-text">{item.description}</p>
                                     <p className="card-text"><small className="text-muted">Starting Price: ${item.bid_price} </small></p>
                                     <p className="card-text"><small className="text-muted">Closing date: {item.closing_date} </small></p>

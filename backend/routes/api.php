@@ -16,7 +16,7 @@ Route::group(['prefix' => 'scopic', 'middleware' => 'CORS'], function ($router) 
     Route::post('/login', [UserController::class, 'login'])->name('login.user');
     Route::post('/settingbidding', [UserController::class, 'settingbidding'])->name('settingbidding.user');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout.user');
-    Route::get('/profile',[UserController::class, 'profile'])->name('profile.user');
+    Route::get('/view-profile',[UserController::class, 'profile'])->name('profile.user');
 
     Route::get('/items', [ItemController::class, 'index'])->name('index.item');
     Route::get('/bidItems', [ItemController::class, 'bidItems'])->name('index.item');
@@ -25,6 +25,7 @@ Route::group(['prefix' => 'scopic', 'middleware' => 'CORS'], function ($router) 
     Route::get('/bidhighest', [ItemController::class, 'bidHighest'])->name('bidhighest.item');
 
     Route::post('/bidnow', [BidController::class, 'bidNow'])->name('bid.item');
+    Route::post('/autobid', [BidController::class, 'autoBid'])->name('autobid.item');
     
     
 });
